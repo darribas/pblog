@@ -1,14 +1,5 @@
-- link: //www.twitter.com/twitter_handle 
+- link: //www.darribas.org 
+  icon: icon-html-five
+- link: //www.twitter.com/darribas 
   icon: icon-twitter
-- link: //plus.google.com/+googlePlusName 
-  icon: icon-google2
-- link: //github.com/GithubHandle 
-  icon: icon-github
-- link: //www.flickr.com/photos/FlickrUserID 
-  icon: icon-flickr3
-- link: /feed 
-  icon: icon-rss2
-- link: //vimeo.com/vimeo-id
-  icon: icon-vimeo2
-- link: //www.linkedin.com/
-  icon: icon-linkedin
+
