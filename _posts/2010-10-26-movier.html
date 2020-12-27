@@ -1,0 +1,42 @@
+---
+layout: post
+title: movieR
+date: 2010-10-26 17:54:21.000000000 -05:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- code
+- data
+- R
+meta:
+  _edit_last: '1412221'
+  _wp_old_slug: ''
+  _wpas_done_twitter: '1'
+  _wpas_done_fb: '1'
+author:
+  login: dreamessenceonthemove
+  email: dreamessence@gmail.com
+  display_name: darribas
+  first_name: Daniel
+  last_name: Arribas-Bel
+permalink: "/2010/10/26/movier/"
+---
+<p><a href="http://dl.dropbox.com/u/1015276/movieR.zip">[Download]</a> <a href="http://dl.dropbox.com/u/1015276/movieR%20.txt">[Source]</a> <a href="http://darribas.org/index.php?option=com_content&amp;view=article&amp;id=61&amp;Itemid=82&amp;lang=en">[Documentation]</a></p>
+<p style="text-align:justify;">It is pretty certain by now we live in a data world: institutions, companies, cell-phones... we are all constantly creating and storing data, even if we don't know it. Things as they are, this' come to a point where the problem is usually not to obtain the right data but to discard the wrong ones. Besides, apparently "<a href="http://www.wired.com/gadgetlab/2008/01/steve-jobs-peop/">people don't read anymore</a>", less to talk about reading data... So the other day, I had another of this horrible moments where you think something <em>kind of cool</em> is going to take 5 minutes to accomplish. The idea seemed pretty simple, so I gave it try. Today, 5 minutes (and 3 more nights) afterwards I've finished movieR.</p>
+<p style="text-align:justify;">The <strong>idea</strong> is simple: you have a bunch of data that represent some phenomenon (say, income per capita), for some individuals (say a few countries) and for a few years; and you want to see whether the distribution of the variable has changed over time and, if so, how.</p>
+<p style="text-align:justify;">MovieR is a small set of functions written in R that draws a bunch of density kernels (for each period and to smooth the transition) and pastes them into a movie using the free/libre software package <a href="http://dvd-slideshow.sourceforge.net/wiki/Main_Page">dvd-slideshow</a>. It takes a csv looking like this:</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p>[sourcecode language="text"]<br />
+&quot;y2000&quot;,&quot;y2001&quot;,&quot;y2002&quot;,&quot;y2003&quot;,&quot;y2004&quot;,&quot;y2005&quot;<br />
+&quot;29392.85&quot;,&quot;30125.1&quot;,&quot;31396.76&quot;,&quot;32353.47&quot;,&quot;33898.93&quot;,&quot;34460.48&quot;<br />
+&quot;30451.79&quot;,&quot;31075.53&quot;,&quot;32344.51&quot;,&quot;33678.8&quot;,&quot;35310.66&quot;,&quot;36520.62&quot;<br />
+...<br />
+[/sourcecode]</p>
+<p style="text-align:justify;">And gives out something like this:</p>
+<p style="text-align:justify;">[vimeo 16203102]</p>
+<p style="text-align:justify;">This allows you to get a good sense of the behaviour of the dataset and some of its main properties in a quick glance. For example, in the video above, which uses <a href="http://stats.oecd.org/OECDStat_Metadata/ShowMetadata.ashx?Dataset=METRO&amp;Lang=en&amp;">OECD data</a>, the distribution of per capita income across a set of 59 cities all over the world from 2000 to 2007 is displayed; one can easily see the distribution has moved rightwards over the years, implying a move towards higher income per capita for more people over the years, as well as a flattening of the curve, that is an equalizing effect across the cities. And, to  please Mr. Jobs, all that without reading a single bit :-)</p>
+<p><a href="http://dl.dropbox.com/u/1015276/movieR.zip">[Download]</a> <a href="http://dl.dropbox.com/u/1015276/movieR%20.txt">[Source]</a> <a href="http://darribas.org/index.php?option=com_content&amp;view=article&amp;id=61&amp;Itemid=82&amp;lang=en">[Documentation]</a></p>
