@@ -1,4 +1,4 @@
 build:
-	jekyll build -d docs
+	jekyll build
 serve:
 	jekyll serve --incremental --watch --host "0.0.0.0"
