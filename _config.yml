@@ -20,4 +20,6 @@ page:
 editor: gvim
 git:
   branch: master
-
+plugins: ['jekyll-paginate']
+paginate: 10
+paginate_path: "{{ site.baseurl }}/page:num/"
