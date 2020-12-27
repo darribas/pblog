@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Choropleths in R</title>
+  <meta name="description" content="The other day I run into the need of creating choropleths, which are thematic maps where attribute data are displayed using a color scale and look like this:...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: [
+      "MathMenu.js",
+      "MathZoom.js",
+      "AssistiveMML.js",
+      "a11y/accessibility-menu.js"
+    ],
+    jax: ["input/TeX", "output/CommonHTML"],
+    TeX: {
+      extensions: [
+        "AMSmath.js",
+        "AMSsymbols.js",
+        "noErrors.js",
+        "noUndefined.js",
+      ]
+    }
+  });
+</script>
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+ <!--   <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+  
+
+  <link rel="stylesheet" type="text/css" href="/pblog/css/tufte.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/pblog/css/print.css" media="print"> -->
+
+  <link rel="canonical" href="/pblog/2010/07/31/choropleths-in-r/">
+
+  <link rel="alternate" type="application/rss+xml" title="Personal Blog" href="/pblog/feed.xml" />
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+            <!--- Logo / Badge
+	<a href="/pblog/"><img class="badge" src="/pblog/assets/img/cropped-allende.jpg" alt="CH"></a>
+    -->
+		    
+    <a href="/pblog/"> BLOG </a>
+		    
+	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/pblog/about/">About</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/pblog/page/">page</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/pblog/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+	</nav>
+</header>
+
+    <article class="group">
+      <h1>Choropleths in R</h1>
+<p class="subtitle">July 31, 2010</p>
+
+<p style="text-align:justify;">The other day I run into the need of creating <a href="http://en.wikipedia.org/wiki/Choropleth">choropleths</a>, which are thematic maps where attribute data are displayed using a color scale and look like this:</p>
+<p style="text-align:justify;"><a href="http://dreamessenceonthemove.files.wordpress.com/2010/07/chor.png"><img class="aligncenter size-full wp-image-374" title="Choropleth" src="/pblog/assets/2010/07/chor.png" alt="Chotopleth example" width="263" height="218" /></a></p>
+<p style="text-align:justify;">It is a very simple task, provided you have the geo-referenced data, and many packages (such as <a href="http://qgis.org">qGIS</a>) make it a click away. However, I had to create around 300 choropleths and computers were not made for us to click 300 times to perform the same task over and over...</p>
+<p style="text-align:justify;"><a href="http://www.r-project.org/">R</a> is a fantastic free software that provides a very powerful graphical support and also has a lot of  great packages other people have contributed, so first I assumed it'd be almost built in. I'm sure it is somewhere, but after 2mins. of googling I realized I'd enjoy more spending time coding it myself (something it looked like a 5-minutes thing) than looking it up on the web, and so I did. After many series of "5 minutes", I did it (and it works). I wasn't really thinking of posting it as it is a very simple function but after some of the pain (and fun) I went trhough to code it, I figured if it saved somebody else time, it'd have been a better invested time.</p>
+<p>Big thanks to David Folch for initial idea and support as well as the original source cited below.</p>
+<p>Feel free to post any comments or feedback if you've used the function. Thanks in advance.</p>
+<h3>Sources</h3>
+<ul>
+<li><a href="http://blog.lib.umn.edu/moor0554/canoemoore/2008/04/mapping_with_r_2.html">Mapping with R: Choropleth of 3rd grade reading proficiency in the Twin Cities</a></li>
+</ul>
+<h3>Usage</h3>
+<p>It is a very simple function that assumes you have a shapefile and the attribute data you want to plot are appended to the .dbf that comes with the shapefile. If that is the case, simply pass in the arguments like this:</p>
+<p>[sourcecode language="c"]<br />
+map &lt;- choropleth(shp, field, png=FALSE, bins=FALSE, bgLayer=FALSE, colPal=&quot;Blues&quot;, style=&quot;hclust&quot;, lwd=0.5, title='', sub='', xlab='', ylab='', legend=TRUE)<br />
+[/sourcecode]</p>
+<p>Simply copy the source code posted below to a file and source it to be able to use the function:</p>
+<p>[sourcecode language="c"]<br />
+source('/path/to/file.r')<br />
+[/sourcecode]</p>
+<p><strong><span style="text-decoration:underline;">Arguments</span></strong></p>
+<ul>
+<li><em>shp</em>: shapefile path.</li>
+<li><em>field</em>: field in the dbf you want to plot (string as it is in the dbf, case sensitive).</li>
+<li><em>png</em>: if FALSE causes to plot the map on R's graphical device; otherwise, specify a path to the png file where the map is printed to. Set to FALSE by default.</li>
+<li><em>bins</em>: number of different colours you want in your plot. If FALSE, it assigns one per each different value (handy for categorical data). Set to FALSE by default.</li>
+<li><em>bgLayer</em>: path to the shapefile to be put as a background in the map (say border lines). Set to FALSE by default.</li>
+<li><em>colPal</em>: colour palette, use it as in R's <a href="http://sekhon.berkeley.edu/library/RColorBrewer/html/ColorBrewer.html">RColorBrewer</a>.</li>
+<li><em>style</em>: function to be used for binning. Use it as in 'classIntervals' of <a href="http://cran.r-project.org/web/packages/classInt/index.html">classInt</a> package. Defaults to 'hclust'.</li>
+<li><em>lwd</em>: line width. Defaults to 0.5.</li>
+<li><em>title</em>: optional string with title.</li>
+<li><em>sub</em>: optional string with subtitle.</li>
+<li><em>xlab</em>: optional string with X axis.</li>
+<li><em>ylab</em>: optional string with Y axis</li>
+<li><em>legend</em>: boolean, if TRUE (default) sets the legend.</li>
+</ul>
+<h3>Dependencies</h3>
+<li style="padding-left:30px;">maptools</li>
+<li style="padding-left:30px;">spatial</li>
+<li style="padding-left:30px;">RColoBrewer</li>
+<li style="padding-left:30px;">classInt</li>
+<h3>Source Code</h3>
+<p>[sourcecode language="c" collapse="false"]</p>
+<p>##################################<br />
+# Choropleth: thematic maps in R #<br />
+##################################</p>
+<p># Author: Daniel Arribas-Bel &lt;daniel.arribas.bel@gmail.com&gt;<br />
+# Copyright 2010 by Daniel Arribas-Bel<br />
+#    This program is free software: you can redistribute it and/or modify<br />
+#    it under the terms of the GNU General Public License as published by<br />
+#    the Free Software Foundation, either version 3 of the License, or<br />
+#    (at your option) any later version.</p>
+<p>#    This program is distributed in the hope that it will be useful,<br />
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of<br />
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />
+#    GNU General Public License for more details.</p>
+<p>#    See: &lt;http://creativecommons.org/licenses/GPL/2.0/&gt; or &lt;http://www.gnu.org/licenses/&gt;</p>
+<p>library(maptools)<br />
+library(spatial)<br />
+library(RColorBrewer)<br />
+library(classInt)</p>
+<p>choropleth &lt;- function(shp, field, png=FALSE, bins=FALSE, bgLayer=FALSE,<br />
+        colPal=&quot;Blues&quot;, style=&quot;hclust&quot;, lwd=0.5, title='', sub='', xlab='',<br />
+        ylab='', legend=TRUE){<br />
+            # If not 'bins' -&gt; categorical data<br />
+            poly &lt;- readShapeSpatial(shp)<br />
+            attach(poly@data, warn.conflicts=FALSE)<br />
+            data &lt;- get(field)<br />
+            if(bins==FALSE){<br />
+                bins &lt;- length(unique(get(field)))<br />
+                colCode &lt;- colCoder(poly, field, colPal)<br />
+                leyenda &lt;- colCode$legend<br />
+                fill &lt;- colCode$paleta<br />
+                colCode &lt;- colCode$colVec<br />
+                } else {<br />
+                colors &lt;- brewer.pal(bins, colPal)<br />
+                class = classIntervals(data, bins, style)<br />
+                colCode = findColours(class, colors, digits=4)<br />
+                leyenda = names(attr(colCode, &quot;table&quot;))<br />
+                fill = attr(colCode, &quot;palette&quot;)<br />
+                }<br />
+            detach(poly@data)<br />
+            #<br />
+            if(png!=FALSE){<br />
+                png(png, width=960, height=960, bg=&quot;transparent&quot;)<br />
+                }<br />
+            if(bgLayer!=FALSE){<br />
+                polyBg &lt;- readShapeSpatial(bgLayer)<br />
+                plot(polyBg, lwd=lwd)<br />
+                plot(poly, add=TRUE, col=colCode, lwd=lwd)<br />
+                } else {<br />
+                plot(poly, col=colCode, lwd=lwd)<br />
+                }<br />
+            title(main=title, sub=sub, xlab=xlab, ylab=ylab)<br />
+            if(legend==TRUE){legend(&quot;topleft&quot;, legend=leyenda, fill=fill, cex=0.75, bty=&quot;n&quot;)}<br />
+            if(png!=FALSE){<br />
+                dev.off()<br />
+                }<br />
+            #&quot;Map created&quot;<br />
+            colCode<br />
+            }</p>
+<p>colCoder &lt;- function(poly, var, colPal){<br />
+            attach(poly@data, warn.conflicts=FALSE)<br />
+            uniques &lt;- unique(get(var))<br />
+            paleta &lt;- brewer.pal(length(uniques), colPal)<br />
+            colVec &lt;- mat.or.vec(length(get(var)), 1)<br />
+            for(row in seq(length(get(var)))){<br />
+                ind &lt;- which(uniques == get(var)[row])<br />
+                colVec[row] &lt;- paleta[ind]<br />
+                }<br />
+            detach(poly@data)<br />
+            res &lt;- list(colVec=colVec, legend=uniques, paleta=paleta)<br />
+            res<br />
+            }</p>
+<p>[/sourcecode]</p>
+<p><a href="http://creativecommons.org/licenses/GPL/2.0/"> <img src="/pblog/assets/2010/07/cc-GPL-a.png" border="0" alt="CC-GNU GPL" /></a></p>
+<p>This software is licensed under the <a href="http://creativecommons.org/licenses/GPL/2.0/">CC-GNU GPL</a> version 2.0 or later.<br />
+<!-- /Creative Commons License --></p>
+
+
+
+    </article>
+    <span class="print-footer">Choropleths in R - July 31, 2010 - Dani Arribas-Bel</span>
+    <footer>
+  <hr class="slender">
+  <ul class="footer-links">
+    
+      <li>
+        <a href="//www.darribas.org"><span class="icon-html-five"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.twitter.com/darribas"><span class="icon-twitter"></span></a>
+      </li>
+      
+      <li>
+        <a href="/pblog/feed.xml"><span class="icon-rss2"></span></a>
+      </li>
+  </ul>
+<div class="credits">
+<span>&copy; 2020 &nbsp;&nbsp;DANI ARRIBAS-BEL</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Notes along the way </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>
