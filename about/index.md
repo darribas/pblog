@@ -3,12 +3,14 @@ layout: full-width
 title: About
 ---
 
-The *Tufte-Jekyll* theme is a natural extension of the work done by [Edward Tufte](https://github.com/edwardtufte/tufte-css) and his collaborators on Github who created a CSS file that allows web writers to use the same simple and elegant style employed in his published materials.
+{% epigraph 
+'Qué mejor sitio para contar aventuras que aquel que está en todas partes y en ninguna; donde se puede leer, pero las letras no son reales; donde todos los que quieren pueden saber de ti; y donde, uno mismo, puede escribir desde cualquier parte del mundo en cualquier momento.' 'Julio' '2007'
+%}
 
-To incorporate these styles into a Jekyll theme, I have made some very slight modifications that attempt to maintain the feel of the CSS styles in his Github repo.
+---
 
-Note that this is a full-width layout. This was accomplished by including ```layout: full-width``` in the YAML front matter for this page. Keep in mind that all the Tufte-Jekyll sidenote and marginnote goodness will not work on full-width layouts! 
-
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll).
+{% epigraph 
+'What place could be better to tell adventures than that being everywhere but not actually existing; that where one can read but letters are not real; that where everyone can pass by and pick up some lines from you and that in which one himself can write and send it out everywhere and everytime?' 'July' '2007'
+%}
 
 
