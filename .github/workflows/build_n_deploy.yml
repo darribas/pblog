@@ -22,6 +22,10 @@ jobs:
         #with:
           #enable_cache: true
 
+      - name: 🔨 check changes
+        run: |
+          git status
+
       - name: 🚀 deploy | commit
         run: |
           git config --local user.email "action@github.com"
