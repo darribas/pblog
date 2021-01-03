@@ -22,20 +22,16 @@ jobs:
         #with:
           #enable_cache: true
 
-      - name: 🔨 check changes
-        run: |
-          git status
-
       - name: 🚀 deploy | commit
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ./docs
-          git status
           git commit -m "Bot build" --allow-empty
 
       - name: 🚀 deploy | push
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
           force: true
